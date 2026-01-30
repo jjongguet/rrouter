@@ -14,7 +14,47 @@
           "match": "claude-haiku-*",
           "rewrite": "gemini-3-flash-preview"
         }
-      ]
+      ],
+      "agentRouting": {
+        "enabled": true,
+        "group1Model": "gemini-3-pro-preview",
+        "group1Agents": [
+          "explore",
+          "explore-medium",
+          "explore-high",
+          "architect",
+          "architect-medium",
+          "architect-low",
+          "researcher",
+          "researcher-low",
+          "critic",
+          "analyst"
+        ],
+        "group2Agents": [
+          "executor",
+          "executor-high",
+          "executor-low",
+          "designer",
+          "designer-low",
+          "designer-high",
+          "writer",
+          "planner",
+          "vision",
+          "qa-tester",
+          "qa-tester-high",
+          "scientist",
+          "scientist-low",
+          "scientist-high",
+          "security-reviewer",
+          "security-reviewer-low",
+          "build-fixer",
+          "build-fixer-low",
+          "tdd-guide",
+          "tdd-guide-low",
+          "code-reviewer",
+          "code-reviewer-low"
+        ]
+      }
     },
     "claude": {
       "mappings": []
