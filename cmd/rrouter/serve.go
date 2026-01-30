@@ -43,6 +43,63 @@ type contextKey string
 
 const proxyResultKey contextKey = "proxyResult"
 
+// stripThinkingBlocks removes thinking blocks from messages for non-Claude backends.
+// If a message's content becomes empty after stripping, the message is removed entirely.
+func stripThinkingBlocks(messages []interface{}) []interface{} {
+	result := make([]interface{}, 0, len(messages))
+	for _, msg := range messages {
+		msgMap, ok := msg.(map[string]interface{})
+		if !ok {
+			result = append(result, msg)
+			continue
+		}
+
+		content, hasContent := msgMap["content"]
+		if !hasContent {
+			result = append(result, msg)
+			continue
+		}
+
+		// Handle content as array of blocks
+		contentArr, isArray := content.([]interface{})
+		if !isArray {
+			// String content or other format - keep as is
+			result = append(result, msg)
+			continue
+		}
+
+		// Filter out thinking blocks
+		filteredContent := make([]interface{}, 0, len(contentArr))
+		for _, block := range contentArr {
+			blockMap, ok := block.(map[string]interface{})
+			if !ok {
+				filteredContent = append(filteredContent, block)
+				continue
+			}
+			blockType, _ := blockMap["type"].(string)
+			if blockType == "thinking" {
+				// Skip thinking blocks
+				continue
+			}
+			filteredContent = append(filteredContent, block)
+		}
+
+		// If content is empty after filtering, skip this message entirely
+		if len(filteredContent) == 0 {
+			continue
+		}
+
+		// Create new message with filtered content
+		newMsg := make(map[string]interface{})
+		for k, v := range msgMap {
+			newMsg[k] = v
+		}
+		newMsg["content"] = filteredContent
+		result = append(result, newMsg)
+	}
+	return result
+}
+
 func modifyRequestBody(body []byte, modeConfig *ModeConfig, mode string) ([]byte, error) {
 	var data map[string]interface{}
 	if err := json.Unmarshal(body, &data); err != nil {
@@ -77,6 +134,14 @@ func modifyRequestBody(body []byte, modeConfig *ModeConfig, mode string) ([]byte
 				data["model"] = newModel
 				log.Printf("[Mode: %s] Rewriting model: %s -> %s", mode, originalModel, newModel)
 			}
+		}
+	}
+
+	// Strip thinking blocks for non-claude modes (Gemini doesn't support them)
+	if mode != "claude" {
+		if messages, ok := data["messages"].([]interface{}); ok {
+			stripped := stripThinkingBlocks(messages)
+			data["messages"] = stripped
 		}
 	}
 
