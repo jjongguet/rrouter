@@ -1,23 +1,26 @@
 <!-- Parent: ../AGENTS.md -->
-<!-- Generated: 2026-01-30 | Updated: 2026-01-30 -->
 
 # cmd
 
 ## Purpose
 
-Container directory for Go application source code. Houses the main rrouter binary.
+Contains subdirectories with main package source code for the rrouter project. Currently houses the `rrouter` command which provides both CLI utilities and the HTTP proxy server in a single binary.
+
+## Key Files
+
+None - this directory only contains subdirectories.
 
 ## Subdirectories
 
 | Directory | Purpose |
 |-----------|---------|
-| `rrouter/` | Main CLI + proxy application (see `rrouter/AGENTS.md`) |
+| `rrouter/` | Main Go source code for the rrouter CLI and proxy server |
 
 ## For AI Agents
 
-### Working In This Directory
+This is an organizational directory following Go conventions where `cmd/` contains command-line applications. Each subdirectory under `cmd/` represents a separate executable binary.
 
-- All Go source code is in `rrouter/` subdirectory
-- Do not add files directly to `cmd/` - use `cmd/rrouter/`
-
-<!-- MANUAL: -->
+For the rrouter project:
+- `cmd/rrouter/` builds to a single `rrouter` binary
+- The binary combines CLI management tools and the HTTP proxy server
+- Use `go build -o rrouter ./cmd/rrouter` to build
