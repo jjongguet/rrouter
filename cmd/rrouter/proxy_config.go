@@ -19,7 +19,8 @@ type Config struct {
 }
 
 type ModeConfig struct {
-	Mappings []ModelMapping `json:"mappings"`
+	Mappings     []ModelMapping      `json:"mappings"`
+	AgentRouting *AgentRoutingConfig `json:"agentRouting,omitempty"`
 }
 
 type ModelMapping struct {

@@ -52,7 +52,27 @@ func modifyRequestBody(body []byte, modeConfig *ModeConfig, mode string) ([]byte
 	if modelVal, ok := data["model"]; ok {
 		if modelStr, ok := modelVal.(string); ok {
 			originalModel := modelStr
+
+			// Step 1: Apply standard model rewriting (existing behavior)
 			newModel := rewriteModelWithConfig(modelStr, modeConfig)
+
+			// Step 2: Agent-type routing override (only when agentRouting is configured and enabled)
+			if modeConfig != nil && modeConfig.AgentRouting != nil && modeConfig.AgentRouting.Enabled {
+				agentName := detectAgentName(data)
+				if agentName != "" {
+					agentType := classifyAgent(agentName, modeConfig.AgentRouting)
+					switch agentType {
+					case AgentTypeGroup1:
+						newModel = modeConfig.AgentRouting.Group1Model
+						log.Printf("[Mode: %s] Agent routing: %s (group1) -> %s", mode, agentName, newModel)
+					case AgentTypeGroup2:
+						log.Printf("[Mode: %s] Agent routing: %s (group2) -> %s (standard)", mode, agentName, newModel)
+					default:
+						log.Printf("[Mode: %s] Agent routing: %s (unknown, fallback) -> %s", mode, agentName, newModel)
+					}
+				}
+			}
+
 			if newModel != originalModel {
 				data["model"] = newModel
 				log.Printf("[Mode: %s] Rewriting model: %s -> %s", mode, originalModel, newModel)
@@ -448,6 +468,14 @@ func cmdServe() {
 
 	listenAddr, upstreamURL = getConfig()
 	appConfig = loadConfigWithDefaults()
+
+	// Validate agent routing configs
+	for modeName, modeConfig := range appConfig.Modes {
+		if modeConfig.AgentRouting != nil {
+			validateAgentRoutingConfig(modeConfig.AgentRouting, modeName)
+		}
+	}
+
 	autoSwitch = newAutoState(appConfig.DefaultMode)
 
 	// Initialize filesystem watcher for mode and config
