@@ -10,6 +10,8 @@ A lightweight routing proxy for Claude Code CLI. Switch OAuth routing modes inst
 
 - **Zero-downtime mode switching** - Change routing modes instantly without restarting proxy or Claude Code CLI
 - **Automatic failure detection** - Bidirectional fallback between Antigravity and Claude on consecutive failures
+- **Agent-based model routing** - Route OMC agents to different models (group1 → gemini-3-pro-preview, group2 → standard)
+- **Thinking block stripping** - Automatically removes Claude thinking blocks for Gemini compatibility
 - **fsnotify-based configuration watching** - Instant file system change reflection with zero I/O overhead
 - **Glob pattern matching** - Wildcard support in model name mapping (`claude-sonnet-*`)
 - **Three routing modes** - antigravity (Gemini Thinking), claude (OAuth passthrough), auto (intelligent fallback)
@@ -80,7 +82,13 @@ Example config:
           "match": "claude-haiku-*",
           "rewrite": "gemini-3-flash-preview"
         }
-      ]
+      ],
+      "agentRouting": {
+        "enabled": true,
+        "group1Model": "gemini-3-pro-preview",
+        "group1Agents": ["explore", "architect", "researcher", "critic", "analyst"],
+        "group2Agents": ["executor", "designer", "writer", "planner", "build-fixer"]
+      }
     },
     "claude": {
       "mappings": []
@@ -89,6 +97,17 @@ Example config:
   "defaultMode": "claude"
 }
 ```
+
+### Agent Routing (oh-my-claudecode)
+
+When using [oh-my-claudecode](https://github.com/Yeachan-Heo/oh-my-claudecode), rrouter can route different agent types to different models:
+
+| Group | Agents | Model |
+|-------|--------|-------|
+| **group1** | explore, architect, researcher, critic, analyst | `gemini-3-pro-preview` |
+| **group2** | executor, designer, writer, planner, build-fixer, etc. | Standard mapping |
+
+This allows exploration/analysis agents to use a faster model while execution agents use the full thinking model.
 
 ### Environment Variables
 

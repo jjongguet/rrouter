@@ -12,6 +12,8 @@ Claude Code CLI를 위한 경량 라우팅 프록시. 재시작 없이 OAuth 라
 
 - **무재시작 모드 전환**: 프록시나 Claude Code CLI를 재시작하지 않고도 라우팅 모드를 즉시 변경
 - **자동 장애 감지**: Antigravity 실패 시 자동으로 Claude로 폴백 (양방향 지원)
+- **에이전트 기반 모델 라우팅**: OMC 에이전트별 다른 모델 라우팅 (group1 → gemini-3-pro-preview, group2 → 표준)
+- **Thinking 블록 자동 제거**: Gemini 호환성을 위해 Claude thinking 블록 자동 스트립
 - **fsnotify 기반 설정 감시**: 파일 시스템 변경을 즉시 반영하며 I/O 오버헤드 없음
 - **글로브 패턴 매칭**: 모델명 매핑에서 와일드카드 지원 (`claude-sonnet-*`)
 - **세 가지 라우팅 모드**: antigravity (Gemini Thinking), claude (OAuth passthrough), auto (자동 폴백)

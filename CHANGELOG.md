@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [4.1.0] - 2026-01-30
+
+### Added
+
+- Agent-based model routing for oh-my-claudecode integration
+  - group1 agents (explore, architect, researcher, critic, analyst) → `gemini-3-pro-preview`
+  - group2 agents (executor, designer, etc.) → standard model mapping
+- Thinking block stripping for non-Claude backends (Gemini compatibility)
+- Agent detection from system prompt (`oh-my-claudecode:{agent-name}` pattern)
+- Config validation with startup warnings for agent routing misconfigurations
+- Comprehensive test suite for agent detection and classification (36 tests)
+
+### Fixed
+
+- 400 errors when Claude thinking blocks were sent to Gemini backends
+
 ## [4.0.0] - 2026-01-30
 
 ### Added
