@@ -1,0 +1,24 @@
+{
+  "modes": {
+    "antigravity": {
+      "mappings": [
+        {
+          "match": "claude-sonnet-*",
+          "rewrite": "claude-sonnet-4-5-thinking"
+        },
+        {
+          "match": "claude-opus-*",
+          "rewrite": "claude-opus-4-5-thinking"
+        },
+        {
+          "match": "claude-haiku-*",
+          "rewrite": "gemini-3-flash"
+        }
+      ]
+    },
+    "claude": {
+      "mappings": []
+    }
+  },
+  "defaultMode": "claude"
+}

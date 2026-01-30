@@ -1,0 +1,25 @@
+[Unit]
+Description=rrouter-proxy - Lightweight routing proxy for Claude Code
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/rrouter-proxy
+Restart=always
+RestartSec=1
+Environment=RROUTER_UPSTREAM=http://localhost:8317
+Environment=RROUTER_PORT=8316
+WorkingDirectory=%h
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=rrouter-proxy
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=%h/.rrouter
+
+[Install]
+WantedBy=default.target

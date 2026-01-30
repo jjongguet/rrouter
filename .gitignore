@@ -1,0 +1,33 @@
+# Build output
+/rrouter
+
+# Backup files
+*.json.bak
+*.bak
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.sublime-*
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Local state
+.omc/
+
+# Test coverage
+coverage.out
+coverage.html
+
+# Vendor (if using)
+vendor/
