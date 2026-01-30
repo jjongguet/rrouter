@@ -313,7 +313,7 @@ func proxyHandler(proxy *httputil.ReverseProxy) http.HandlerFunc {
 		target := autoSwitch.resolveRouting(intent)
 
 		if intent == "auto" {
-			log.Printf("[Req #%d] %s %s (mode: auto -> %s)", reqNum, r.Method, r.URL.Path, target)
+			log.Printf("[Req #%d] %s %s (mode: auto, target: %s)", reqNum, r.Method, r.URL.Path, target)
 		} else {
 			log.Printf("[Req #%d] %s %s (mode: %s)", reqNum, r.Method, r.URL.Path, target)
 		}
