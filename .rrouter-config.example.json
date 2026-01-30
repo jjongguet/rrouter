@@ -4,15 +4,15 @@
       "mappings": [
         {
           "match": "claude-sonnet-*",
-          "rewrite": "claude-sonnet-4-5-thinking"
+          "rewrite": "gemini-claude-sonnet-4-5-thinking"
         },
         {
           "match": "claude-opus-*",
-          "rewrite": "claude-opus-4-5-thinking"
+          "rewrite": "gemini-claude-opus-4-5-thinking"
         },
         {
           "match": "claude-haiku-*",
-          "rewrite": "gemini-3-flash"
+          "rewrite": "gemini-3-flash-preview"
         }
       ]
     },
