@@ -4,6 +4,8 @@
 
 Claude Code CLI를 위한 경량 라우팅 프록시. 재시작 없이 OAuth 라우팅 모드를 즉시 전환하고, 자동 장애 감지/복구 기능을 제공합니다.
 
+> **참고**: rrouter는 [CLIProxyAPI](https://github.com/router-for-me/CLIProxyAPI)와 함께 사용하도록 설계되었습니다. rrouter가 모델명 변환과 모드 전환(Stage 1)을 담당하고, CLIProxyAPI가 OAuth 채널 라우팅(Stage 2)을 처리합니다.
+
 ---
 
 ## 주요 기능

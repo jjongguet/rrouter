@@ -4,6 +4,8 @@
 
 A lightweight routing proxy for Claude Code CLI. Switch OAuth routing modes instantly without restart, with automatic failure detection and recovery.
 
+> **Note**: rrouter is designed to work together with [CLIProxyAPI](https://github.com/router-for-me/CLIProxyAPI). rrouter handles model name rewriting and mode switching (Stage 1), while CLIProxyAPI handles OAuth channel routing (Stage 2).
+
 ## Features
 
 - **Zero-downtime mode switching** - Change routing modes instantly without restarting proxy or Claude Code CLI
